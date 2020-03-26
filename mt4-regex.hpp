@@ -47,6 +47,8 @@ using RegExObj = void*;
 
 extern "C" {
 
+APIDECL(uint64_t) GetTimeOfDay(); // Return time in usec since Unix epoch
+
 APIDECL(RegExObj) ReInit     (const wchar_t* regex, std::regex::flag_type flags = std::regex::flag_type::ECMAScript);
 APIDECL(bool)     ReUpdate   (RegExObj re, const wchar_t* regex, std::regex::flag_type flags = std::regex::flag_type::ECMAScript);
 APIDECL(int     ) ReMatch    (RegExObj regex, const wchar_t* subject,

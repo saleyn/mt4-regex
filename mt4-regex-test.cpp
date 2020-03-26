@@ -20,7 +20,7 @@ void TestBasic()
   p = ReInit(L"<!--([^-]+)-->");
   ASSERT_TRUE(p != nullptr);
 
-  int res, count=0;
+  int count=0;
   
   const auto rex = L"abc<!--ABC-->efg<!--EFG-->xxxx";
 
@@ -41,9 +41,17 @@ void TestBasic()
   ReFinalize(p);
 }
 
+void TestGetTimeOfDay()
+{
+  auto now1 = GetTimeOfDay() / 1000000;
+  auto now2 = time(nullptr);
+  CHECK_EQUAL(now1, now2);
+}
+
 int main(int, char**)
 {
   set_terminate(&UnhandledException);
 
   TestBasic();
+  TestGetTimeOfDay();
 }
