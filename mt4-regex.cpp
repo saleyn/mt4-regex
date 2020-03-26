@@ -19,7 +19,7 @@ uint64_t WINAPI GetTimeOfDay() {
 #include <ws2ipdef.h>
 #include <libloaderapi.h>
 
-typedef void(WINAPI* PgGetSystemTimeFn) (LPFILETIME);
+typedef void(__stdcall* PgGetSystemTimeFn) (LPFILETIME);
 
 static PgGetSystemTimeFn init_gettimeofday()
 {
@@ -36,7 +36,7 @@ static PgGetSystemTimeFn init_gettimeofday()
    * and determining the windows version is its self somewhat Windows
    * version and development SDK specific...
    */
-  auto lib = GetModuleHandle(TEXT("kernel32.dll"));
+  auto lib = GetModuleHandleA("kernel32.dll");
   if (lib) {
     auto p = GetProcAddress(lib, "GetSystemTimePreciseAsFileTime");
     if (p)  return (PgGetSystemTimeFn)p;
@@ -50,7 +50,7 @@ static PgGetSystemTimeFn init_gettimeofday()
   return &GetSystemTimeAsFileTime;
 }
 
-uint64_t WINAPI GetTimeOfDay()
+uint64_t __stdcall GetTimeOfDay()
 {
   static PgGetSystemTimeFn s_get_system_time_fun = init_gettimeofday();
 
